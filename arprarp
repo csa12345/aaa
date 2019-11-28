@@ -1,0 +1,67 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+
+int main(){
+
+FILE *fptr=NULL;
+int x;
+char data1[1024],data2[1024],input[1024],publicIP[1024],generatedIP[1024],temp[100];
+fptr=fopen("arp.txt","r");
+if(fptr==NULL){
+printf("File not found\n");
+return 0;
+}
+
+while(1){
+printf("Enter 1 for ARP 2 for RARP 3 for NAT 4 Exit\n");
+scanf("%d",&x);
+switch(x){
+
+	case 1:
+		printf("Enter the IP address\n");
+		scanf("%s",input);
+		while(fscanf(fptr,"%s %s",data1,data2)==2){
+			if(strcmp(data1,input)==0){
+				printf("MAC address is %s\n",data2);
+			}
+		}
+
+		break;
+
+	case 2:
+		printf("Enter the MAC address\n");
+		scanf("%s",input);
+		while(fscanf(fptr,"%s %s",data1,data2)==2){
+			if(strcmp(data2,input)==0){
+				printf("IP address is %s\n",data1);
+			}
+		}
+
+		break;
+	
+	case 3:
+		printf("Enter the public ip address\n");
+		scanf("%s",publicIP);
+		
+		printf("Enter local ip of the process\n");
+		scanf("%s",temp);
+
+		strcpy(generatedIP,publicIP);
+		generatedIP[8]='0'+rand()%9;
+		generatedIP[9]='0'+rand()%9;
+		generatedIP[11]='0'+rand()%9;
+		generatedIP[12]='0'+rand()%9;
+		printf("%s Translated to %s\n",temp,generatedIP);	
+	
+		break;
+
+	case 4: return 0; 
+	
+
+}
+
+}
+return 0;
+}
